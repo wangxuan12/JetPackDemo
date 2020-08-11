@@ -18,7 +18,7 @@
 <!--        app:layout_constraintRight_toRightOf="parent"-->
 <!--        app:menu="@menu/bottom_nav_menu" />-->
 
-    <com.wx.jetpackdemo.ui.view.AppBottomBar
+    <com.wx.jetpackdemo.view.AppBottomBar
         android:id="@+id/nav_view"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

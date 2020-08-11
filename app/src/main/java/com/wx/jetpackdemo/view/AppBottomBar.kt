@@ -1,4 +1,4 @@
-package com.wx.jetpackdemo.ui.view
+package com.wx.jetpackdemo.view
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -11,9 +11,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationMenuView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.bottomnavigation.LabelVisibilityMode
 import com.wx.jetpackdemo.R
-import com.wx.jetpackdemo.model.Tabs
-import com.wx.jetpackdemo.ui.utils.AppConfig
-import java.util.jar.Attributes
+import com.wx.jetpackdemo.utils.AppConfig
 
 class AppBottomBar : BottomNavigationView {
     private val sIcons = intArrayOf(

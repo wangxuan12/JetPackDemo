@@ -1,4 +1,4 @@
-package com.wx.jetpackdemo.ui.utils
+package com.wx.jetpackdemo.utils
 
 import android.content.ComponentName
 import androidx.navigation.ActivityNavigator
@@ -6,7 +6,6 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraph
 import androidx.navigation.NavGraphNavigator
 import androidx.navigation.fragment.FragmentNavigator
-import com.wx.jetpackdemo.MainApplication
 import com.wx.jetpackdemo.model.Destination
 
 object NavGraphBuilder {

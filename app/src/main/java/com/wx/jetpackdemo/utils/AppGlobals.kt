@@ -1,9 +1,8 @@
-package com.wx.jetpackdemo.ui.utils
+package com.wx.jetpackdemo.utils
 
 import android.annotation.SuppressLint
 import android.app.Application
 import com.wx.jetpackdemo.MainApplication
-import java.lang.reflect.Method
 
 @SuppressLint("PrivateApi", "DiscouragedPrivateApi")
 object AppGlobals {

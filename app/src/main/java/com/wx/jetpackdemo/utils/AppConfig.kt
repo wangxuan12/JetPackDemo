@@ -1,4 +1,4 @@
-package com.wx.jetpackdemo.ui.utils
+package com.wx.jetpackdemo.utils
 
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
