@@ -1,18 +1,22 @@
 package com.wx.jetpackdemo.utils
 
 import android.content.ComponentName
+import androidx.fragment.app.FragmentActivity
 import androidx.navigation.ActivityNavigator
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph
 import androidx.navigation.NavGraphNavigator
 import androidx.navigation.fragment.FragmentNavigator
+import com.wx.jetpackdemo.FixFragmentNavigator
 import com.wx.jetpackdemo.model.Destination
 
 object NavGraphBuilder {
 
-    fun build(controller : NavController) {
+    fun build(controller : NavController, activity: FragmentActivity, containerId : Int) {
         val provider = controller.navigatorProvider
-        val fragmentNavigator = provider.getNavigator(FragmentNavigator::class.java)
+//        val fragmentNavigator = provider.getNavigator(FragmentNavigator::class.java)
+        val fragmentNavigator = FixFragmentNavigator(activity, activity.supportFragmentManager, containerId)
+        provider.addNavigator(fragmentNavigator)
         val activityNavigator = provider.getNavigator(ActivityNavigator::class.java)
 
         val navGraph = NavGraph(NavGraphNavigator(provider))

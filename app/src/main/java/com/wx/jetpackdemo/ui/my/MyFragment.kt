@@ -1,6 +1,7 @@
 package com.wx.jetpackdemo.ui.my
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,6 +22,7 @@ class MyFragment : Fragment() {
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
+        Log.e("MyFragment", "onCreateView")
         myViewModel =
                 ViewModelProviders.of(this).get(MyViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_home, container, false)
