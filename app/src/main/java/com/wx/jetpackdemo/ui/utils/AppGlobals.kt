@@ -2,14 +2,15 @@ package com.wx.jetpackdemo.ui.utils
 
 import android.annotation.SuppressLint
 import android.app.Application
+import com.wx.jetpackdemo.MainApplication
 import java.lang.reflect.Method
 
-@SuppressLint("PrivateApi")
+@SuppressLint("PrivateApi", "DiscouragedPrivateApi")
 object AppGlobals {
-    val sApplication : Application by lazy {
-        val method : Method = Class.forName("android.app.activityThread").getDeclaredMethod("currentApplication")
-        method.invoke(null, null) as Application
-    }
+//    private val sApplication : Application by lazy {
+//        val method : Method = Class.forName("android.app.ActivityThread").getDeclaredMethod("currentApplication")
+//        method.invoke(null, Any()) as Application
+//    }
 
-    fun getApplication() = sApplication
+    fun getApplication() : Application = MainApplication.getApplication()
 }

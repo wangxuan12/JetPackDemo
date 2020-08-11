@@ -1,13 +1,13 @@
-package com.wx.jetpackdemo.ui.notifications
+package com.wx.jetpackdemo.ui.my
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
-class NotificationsViewModel : ViewModel() {
+class MyViewModel : ViewModel() {
 
     private val _text = MutableLiveData<String>().apply {
-        value = "This is notifications Fragment"
+        value = "This is my Fragment"
     }
     val text: LiveData<String> = _text
 }
