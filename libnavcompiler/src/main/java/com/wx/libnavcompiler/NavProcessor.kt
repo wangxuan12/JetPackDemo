@@ -53,19 +53,23 @@ class NavProcessor : AbstractProcessor() {
             outputFile.createNewFile()
 
             val content = Gson().toJson(destMap)
-            var fos : FileOutputStream? = null
-            var writer: OutputStreamWriter? = null
-            try {
-                fos = FileOutputStream(outputFile)
-                writer = OutputStreamWriter(fos, "UTF-8")
-                writer.write(content)
-                writer.flush()
-            } catch (e: IOException) {
-                e.printStackTrace()
-            } finally {
-                fos?.close()
-                writer?.close()
+            OutputStreamWriter(FileOutputStream(outputFile), "UTF-8").use {
+                it.write(content)
+                it.flush()
             }
+//            var fos : FileOutputStream? = null
+//            var writer: OutputStreamWriter? = null
+//            try {
+//                fos = FileOutputStream(outputFile)
+//                writer = OutputStreamWriter(fos, "UTF-8")
+//                writer.write(content)
+//                writer.flush()
+//            } catch (e: IOException) {
+//                e.printStackTrace()
+//            } finally {
+//                fos?.close()
+//                writer?.close()
+//            }
         }
         return true
     }

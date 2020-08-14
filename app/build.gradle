@@ -52,5 +52,6 @@ dependencies {
 
     implementation project(":libnavannotation")
     kapt project(":libnavcompiler")
+    implementation project(":libnetwork")
 
 }
