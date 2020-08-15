@@ -6,9 +6,9 @@ import androidx.navigation.ActivityNavigator
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph
 import androidx.navigation.NavGraphNavigator
-import androidx.navigation.fragment.FragmentNavigator
 import com.wx.jetpackdemo.FixFragmentNavigator
 import com.wx.jetpackdemo.model.Destination
+import com.wx.libcommon.AppGlobals
 
 object NavGraphBuilder {
 
