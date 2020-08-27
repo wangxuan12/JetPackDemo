@@ -21,6 +21,7 @@
         android:paddingBottom="@dimen/dp_10"
         android:layout_marginStart="@dimen/dp_16"
         android:layout_marginEnd="@dimen/dp_16"
+        android:visibility="@{comment==null?View.GONE:View.VISIBLE}"
         android:background="@color/color_gray2">
 
         <ImageView
@@ -98,6 +99,7 @@
             <FrameLayout
                 android:layout_width="@dimen/dp_80"
                 android:layout_height="@dimen/dp_80"
+                android:visibility="@{TextUtils.isEmpty(comment.imageUrl) ? View.GONE : View.VISIBLE}"
                 android:layout_marginTop="@dimen/dp_10">
 
                 <ImageView
@@ -105,6 +107,7 @@
                     android:layout_height="match_parent"
                     tools:src="@mipmap/ic_launcher"
                     android:background="@color/color_theme_10"
+                    android:visibility="@{TextUtils.isEmpty(comment.imageUrl) ? View.GONE : View.VISIBLE}"
                     app:image_url="@{comment.imageUrl}"
                     app:isCircle="@{false}"
                     android:layout_gravity="center" />
@@ -113,7 +116,7 @@
                     android:layout_width="@dimen/dp_20"
                     android:layout_height="@dimen/dp_20"
                     android:layout_gravity="center"
-                    android:visibility="@{comment.commentType == 2 ? View.VISIBLE : View.GONE}"
+                    android:visibility="@{TextUtils.isEmpty(comment.videoUrl) ? View.GONE : View.VISIBLE}"
                     android:src="@drawable/icon_video_play" />
             </FrameLayout>
         </LinearLayout>

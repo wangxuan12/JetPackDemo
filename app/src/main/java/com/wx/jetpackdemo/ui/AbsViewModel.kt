@@ -14,7 +14,7 @@ abstract class AbsViewModel<T> : ViewModel() {
 
     init {
         val config = PagedList.Config.Builder()
-            .setPageSize(10)
+            .setPageSize(20)
             .setInitialLoadSizeHint(12)
 //            .setMaxSize(100)
 //            .setEnablePlaceholders(false)

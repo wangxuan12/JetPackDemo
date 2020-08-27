@@ -4,11 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="feed"
             type="Feed" />
 
         <import type="com.wx.jetpackdemo.model.Feed" />
+
         <import type="com.wx.jetpackdemo.utils.StringConvert" />
     </data>
 
@@ -30,8 +32,11 @@
             app:icon="@{feed.ugc.hasLiked ? @drawable/icon_cell_liked : @drawable/icon_cell_like}"
             app:iconGravity="textStart"
             app:iconPadding="@dimen/dp_4"
+            app:iconTint="@{feed.ugc.hasLiked ? @color/color_theme : @color/color_3d3}"
+            tools:icon="@drawable/icon_cell_liked"
+            tools:iconTint="@color/color_3d3"
             tools:text="1000"
-            tools:icon="@drawable/icon_cell_liked"/>
+            tools:textColor="@color/color_3d3" />
 
         <com.google.android.material.button.MaterialButton
             android:layout_width="0dp"
@@ -44,8 +49,11 @@
             app:icon="@{feed.ugc.hasdiss ? @drawable/icon_cell_dissed : @drawable/icon_cell_diss}"
             app:iconGravity="textStart"
             app:iconPadding="@dimen/dp_4"
+            app:iconTint="@{feed.ugc.hasLiked ? @color/color_theme : @color/color_3d3}"
+            tools:icon="@drawable/icon_cell_dissed"
+            tools:iconTint="@color/color_3d3"
             tools:text="1000"
-            tools:icon="@drawable/icon_cell_dissed"/>
+            tools:textColor="@color/color_3d3" />
 
         <com.google.android.material.button.MaterialButton
             android:layout_width="0dp"
@@ -58,8 +66,10 @@
             app:icon="@drawable/icon_cell_comment"
             app:iconGravity="textStart"
             app:iconPadding="@dimen/dp_4"
+            app:iconTint="@color/color_3d3"
+            tools:icon="@drawable/icon_cell_comment"
             tools:text="1000"
-            tools:icon="@drawable/icon_cell_comment"/>
+            tools:textColor="@color/color_3d3" />
 
         <com.google.android.material.button.MaterialButton
             android:layout_width="0dp"
@@ -72,7 +82,9 @@
             app:icon="@drawable/icon_cell_share"
             app:iconGravity="textStart"
             app:iconPadding="@dimen/dp_4"
+            app:iconTint="@color/color_3d3"
+            tools:icon="@drawable/icon_cell_share"
             tools:text="1000"
-            tools:icon="@drawable/icon_cell_share"/>
+            tools:textColor="@color/color_3d3" />
     </LinearLayout>
 </layout>
