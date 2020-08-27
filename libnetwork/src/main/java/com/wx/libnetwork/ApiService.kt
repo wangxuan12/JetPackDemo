@@ -10,7 +10,7 @@ import javax.net.ssl.*
 object ApiService {
     internal var okHttpClient : OkHttpClient
     internal lateinit var baseUrl : String
-    internal lateinit var convert: Convert<*>
+    internal var convert: Convert<*>? = null
 
 
     init {
@@ -26,11 +26,11 @@ object ApiService {
 
         val trustManagers : Array<TrustManager> = arrayOf(object : X509TrustManager {
             override fun checkClientTrusted(p0: Array<out X509Certificate>?, p1: String?) {
-                TODO("Not yet implemented")
+
             }
 
             override fun checkServerTrusted(p0: Array<out X509Certificate>?, p1: String?) {
-                TODO("Not yet implemented")
+
             }
 
             override fun getAcceptedIssuers(): Array<X509Certificate> {
@@ -43,9 +43,17 @@ object ApiService {
         HttpsURLConnection.setDefaultHostnameVerifier { _, _ -> true }
     }
 
-    fun init(baseUrl : String, convert: Convert<*>) {
+    fun <T> init(baseUrl : String, convert: Convert<T>?) {
         this.baseUrl = baseUrl
-        this.convert = convert
+        this.convert = convert ?: JsonConvert<T>()
+    }
+
+    fun <T> get(url : String) : GetRequest<T> {
+        return GetRequest(baseUrl + url)
+    }
+
+    fun <T> post(url : String) : PostRequest<T> {
+        return PostRequest(baseUrl + url)
     }
 
 }

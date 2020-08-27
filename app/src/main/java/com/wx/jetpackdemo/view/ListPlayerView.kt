@@ -13,7 +13,7 @@ import kotlinx.android.synthetic.main.layout_player_view.view.*
 
 class ListPlayerView : FrameLayout {
     private lateinit var category: String
-    private lateinit var videoUrl: String
+    private var videoUrl: String? = null
     constructor(context: Context) : this(context, null)
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
     constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(
@@ -24,7 +24,7 @@ class ListPlayerView : FrameLayout {
         LayoutInflater.from(context).inflate(R.layout.layout_player_view, this, true)
     }
 
-    fun bindData(category: String, width: Int, height: Int, coverUrl: String, videoUrl: String) {
+    fun bindData(category: String, width: Int, height: Int, coverUrl: String?, videoUrl: String?) {
         this.category = category
         this.videoUrl = videoUrl
 

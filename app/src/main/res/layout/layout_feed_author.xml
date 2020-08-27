@@ -14,8 +14,6 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_40"
         android:orientation="horizontal"
-        app:image_url="@{user.avatar}"
-        app:isCircle="@{true}"
         android:layout_marginBottom="@dimen/dp_10"
         android:layout_marginStart="@dimen/dp_16"
         android:layout_marginEnd="@dimen/dp_16">
@@ -24,6 +22,8 @@
             android:id="@+id/avatar"
             android:layout_width="@dimen/dp_40"
             android:layout_height="@dimen/dp_40"
+            app:image_url="@{user.avatar}"
+            app:isCircle="@{true}"
             tools:src="@mipmap/ic_launcher_round" />
 
         <TextView

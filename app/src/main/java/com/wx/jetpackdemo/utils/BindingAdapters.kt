@@ -10,7 +10,15 @@ object BindingAdapters {
 
     @SuppressLint("CheckResult")
     @BindingAdapter("app:image_url", "app:isCircle", requireAll = true)
-    @JvmStatic fun setImageUrl(view : ImageView, imageUrl : String, isCircle : Boolean) {
+    @JvmStatic fun setImageUrlBinding(view : ImageView, imageUrl : String?, isCircle : Boolean) {
+        val builder = Glide.with(view).load(imageUrl)
+        if (isCircle) builder.transform(CircleCrop())
+        view.layoutParams?.takeIf { it.width > 0 && it.height > 0 }
+            ?.also { builder.override(it.width, it.height) }
+        builder.into(view)
+    }
+
+    fun setImageUrl(view : ImageView, imageUrl : String?, isCircle : Boolean) {
         val builder = Glide.with(view).load(imageUrl)
         if (isCircle) builder.transform(CircleCrop())
         view.layoutParams?.takeIf { it.width > 0 && it.height > 0 }

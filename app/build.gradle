@@ -51,8 +51,10 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
+    //gson
     implementation 'com.google.code.gson:gson:2.8.6'
 
+    //glide
     implementation 'com.github.bumptech.glide:glide:4.11.0'
     kapt 'com.github.bumptech.glide:compiler:4.11.0'
     //glide-transformations
@@ -60,7 +62,22 @@ dependencies {
 
     implementation project(":libnavannotation")
     kapt project(":libnavcompiler")
-    implementation project(":libnetwork")
+    api project(":libnetwork")
     implementation project(":libcommon")
+
+    //SmartRefreshLayout
+    implementation  'com.scwang.smart:refresh-layout-kernel:2.0.1'
+    implementation  'com.scwang.smart:refresh-header-classics:2.0.1'
+
+    //ExoPlayer
+    implementation 'com.google.android.exoplayer:exoplayer-core:2.11.8'
+    implementation 'com.google.android.exoplayer:exoplayer-dash:2.11.8'
+    implementation 'com.google.android.exoplayer:exoplayer-ui:2.11.8'
+
+    //paging
+    implementation 'androidx.paging:paging-runtime:2.1.2'
+
+    //stetho，Chrome的inspect进行调试
+    api 'com.facebook.stetho:stetho:1.5.0'
 
 }

@@ -29,7 +29,7 @@ class CustomImageView : AppCompatImageView {
         marginLeft: Int,
         maxWidth: Int = PixUtils.getScreenWidth(),
         maxHeight: Int = PixUtils.getScreenWidth(),
-        imageUrl: String
+        imageUrl: String?
     ) {
         if (width <= 0 || height <= 0) {
             Glide.with(this).load(imageUrl).into(object : CustomTarget<Drawable>() {
@@ -74,7 +74,7 @@ class CustomImageView : AppCompatImageView {
     }
 
     @SuppressLint("CheckResult")
-    fun setBlurImageUrl(coverUrl: String, radius: Int) {
+    fun setBlurImageUrl(coverUrl: String?, radius: Int) {
         Glide.with(this).load(coverUrl)
             .transform(BlurTransformation())
             .override(50)
