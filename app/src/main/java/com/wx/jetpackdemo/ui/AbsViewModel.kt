@@ -11,9 +11,10 @@ abstract class AbsViewModel<T> : ViewModel() {
     private val pageData : LiveData<PagedList<T>>
     private lateinit var dataSource : DataSource<Int, T>
     private val boundaryPageData : MutableLiveData<Boolean> = MutableLiveData()
+    protected val config : PagedList.Config
 
     init {
-        val config = PagedList.Config.Builder()
+        config = PagedList.Config.Builder()
             .setPageSize(20)
             .setInitialLoadSizeHint(12)
 //            .setMaxSize(100)

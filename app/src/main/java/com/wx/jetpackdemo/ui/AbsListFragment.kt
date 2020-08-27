@@ -21,8 +21,8 @@ import java.lang.reflect.ParameterizedType
 
 abstract class AbsListFragment<T, VM : AbsViewModel<T>> : Fragment(), OnRefreshListener, OnLoadMoreListener {
     private lateinit var binding: LayoutRefreshViewBinding
-    private var adapter : PagedListAdapter<T, RecyclerView.ViewHolder>? = null
-    private var viewModel : VM? = null
+    protected var adapter : PagedListAdapter<T, RecyclerView.ViewHolder>? = null
+    protected var viewModel : VM? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -36,7 +36,7 @@ abstract class AbsListFragment<T, VM : AbsViewModel<T>> : Fragment(), OnRefreshL
         binding.refreshLayout.setOnRefreshListener(this)
         binding.refreshLayout.setOnLoadMoreListener(this)
 
-        adapter = getAdapter()
+        adapter = createAdapter()
         binding.recyclerView.adapter = adapter
         binding.recyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         binding.recyclerView.itemAnimator = null
@@ -50,7 +50,7 @@ abstract class AbsListFragment<T, VM : AbsViewModel<T>> : Fragment(), OnRefreshL
 
     abstract fun afterCreateView()
 
-    fun submit(pagedList: PagedList<T>) {
+    fun submitList(pagedList: PagedList<T>) {
         pagedList.takeIf { it.size > 0 }?.also { adapter?.submitList(it) }
         finishRefresh(pagedList.size > 0)
     }
@@ -64,7 +64,7 @@ abstract class AbsListFragment<T, VM : AbsViewModel<T>> : Fragment(), OnRefreshL
             val modelClazz = (argument as Class<*>).asSubclass(AbsViewModel::class.java)
             viewModel = ViewModelProvider(this).get(modelClazz) as  VM?
             viewModel?.getPageData()?.observe(viewLifecycleOwner,
-                Observer { pagedList -> submit(pagedList) })
+                Observer { pagedList -> submitList(pagedList) })
             viewModel?.getBoundaryPageData()?.observe(viewLifecycleOwner, Observer { hasData -> finishRefresh(hasData) })
         }
     }
@@ -85,5 +85,5 @@ abstract class AbsListFragment<T, VM : AbsViewModel<T>> : Fragment(), OnRefreshL
         }
     }
 
-    abstract fun getAdapter() : PagedListAdapter<T, RecyclerView.ViewHolder>
+    abstract fun createAdapter() : PagedListAdapter<T, RecyclerView.ViewHolder>
 }
