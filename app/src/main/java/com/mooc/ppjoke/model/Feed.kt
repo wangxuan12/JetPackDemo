@@ -1,6 +1,7 @@
 package com.mooc.ppjoke.model
 
 import androidx.databinding.BaseObservable
+import androidx.databinding.Bindable
 import java.io.Serializable
 
 data class Feed constructor(
@@ -19,10 +20,15 @@ data class Feed constructor(
     val width: Int = 0,
     val author : User? = null,
     val topComment: Comment? = null,
-    val ugc: Ugc? = null
+    private var ugc: Ugc? = null
 ) : BaseObservable(), Serializable {
     companion object {
         const val TYPE_IMAGE = 1
         const val TYPE_VIDEO = 1
+    }
+
+    @Bindable
+    fun getUgc() : Ugc {
+        return ugc ?: Ugc().also { ugc = it }
     }
 }

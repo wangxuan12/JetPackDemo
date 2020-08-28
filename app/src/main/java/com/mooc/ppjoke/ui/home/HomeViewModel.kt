@@ -15,6 +15,7 @@ import com.mooc.libnetwork.ApiResponse
 import com.mooc.libnetwork.ApiService
 import com.mooc.libnetwork.JsonCallback
 import com.mooc.libnetwork.Request
+import com.mooc.ppjoke.ui.login.UserManager
 import java.util.concurrent.atomic.AtomicBoolean
 
 class HomeViewModel : AbsViewModel<Feed>() {
@@ -61,7 +62,7 @@ class HomeViewModel : AbsViewModel<Feed>() {
         if (key > 0) loadAfter.set(true)
         val request = ApiService.get<List<Feed>>("/feeds/queryHotFeedsList")
             .addParam("feedType", "all")
-            .addParam("userId", 0)
+            .addParam("userId", UserManager.getUserId())
             .addParam("feedId", key)
             .addParam("pageCount", 10)
             .responseType(object : TypeToken<List<Feed>>() {}.type)

@@ -15,7 +15,7 @@ abstract class AbsViewModel<T> : ViewModel() {
 
     init {
         config = PagedList.Config.Builder()
-            .setPageSize(20)
+            .setPageSize(10)
             .setInitialLoadSizeHint(12)
 //            .setMaxSize(100)
 //            .setEnablePlaceholders(false)

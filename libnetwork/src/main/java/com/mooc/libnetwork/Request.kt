@@ -22,7 +22,7 @@ abstract class Request<T, R : Request<T, R>>(var url : String) : Cloneable {
     private var cacheKey : String? = null
     private var type: Type? = null
     private var clazz : Class<*>? = null
-    private var cacheStrategy : Int = CACHE_FIRST
+    private var cacheStrategy : Int = NET_ONLY
 
     companion object {
         //仅仅只访问本地缓存，即便本地缓存不存在，也不会发起网络请求
