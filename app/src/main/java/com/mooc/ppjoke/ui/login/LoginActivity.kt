@@ -1,5 +1,6 @@
 package com.mooc.ppjoke.ui.login
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -14,16 +15,15 @@ import com.mooc.ppjoke.model.User
 import com.mooc.libnetwork.ApiResponse
 import com.mooc.libnetwork.ApiService
 import com.mooc.libnetwork.JsonCallback
+import com.tencent.connect.common.Constants
 import kotlinx.android.synthetic.main.activity_layout_login.*
 import org.json.JSONObject
 
 class LoginActivity : AppCompatActivity(), View.OnClickListener {
 
-//    private val tencent: Tencent by lazy {
-//        Tencent.createInstance("101794421", applicationContext)
-//    }
-
-    private lateinit var tencent : Tencent
+    private val tencent: Tencent by lazy {
+        Tencent.createInstance("101794421", applicationContext)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,7 +40,6 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun login() {
-        tencent = Tencent.createInstance("101794421", applicationContext)
         tencent.login(this, "all", loginListener)
     }
 
@@ -107,5 +106,13 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
                     Toast.makeText(applicationContext, "登陆失败,msg: ${response.message}", Toast.LENGTH_SHORT).show()
                 }
             })
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (requestCode == Constants.REQUEST_LOGIN) {
+            //当QQ登录完成后，进行回调
+            Tencent.onActivityResultData(requestCode, resultCode, data, loginListener);
+        }
+        super.onActivityResult(requestCode, resultCode, data)
     }
 }

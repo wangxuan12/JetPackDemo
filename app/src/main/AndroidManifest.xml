@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.mooc.ppjoke">
-    
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 
     <application
         android:name="com.mooc.ppjoke.MainApplication"
@@ -30,7 +31,7 @@
         <activity android:name="com.mooc.ppjoke.ui.login.LoginActivity" />
 
         <!-- 注册QQ SDKActivity -->
-<!--        QQ用到了 Apache HTTP client 的相关类-->
+<!--        里面包含但没用的 apache的类，需要在这里通过uses-library去除掉-->
         <uses-library
             android:name="org.apache.http.legacy"
             android:required="false" />
