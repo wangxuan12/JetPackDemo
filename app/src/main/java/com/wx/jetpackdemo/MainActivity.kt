@@ -4,13 +4,17 @@ import android.os.Bundle
 import android.text.TextUtils
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.wx.jetpackdemo.ui.login.UserManager
+import com.wx.jetpackdemo.utils.AppConfig
 import com.wx.jetpackdemo.utils.NavGraphBuilder
 
 class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener {
 
+    private lateinit var navView: BottomNavigationView
     private lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -20,7 +24,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        val navView: BottomNavigationView = findViewById(R.id.nav_view)
+        navView = findViewById(R.id.nav_view)
 
         navController = findNavController(R.id.nav_host_fragment)
         // Passing each menu ID as a set of Ids because each
@@ -36,6 +40,16 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        val destConfig = AppConfig.getDestConfig()
+        //遍历 target destination 是否需要登录拦截
+        for ((k, v) in destConfig) {
+            if (v.id == item.itemId && v.needLogin && !UserManager.isLogin()) {
+                UserManager.login(this).observe(this, Observer {
+                    navView.selectedItemId = item.itemId
+                })
+                return false
+            }
+        }
         navController.navigate(item.itemId)
         return !TextUtils.isEmpty(item.title)
     }

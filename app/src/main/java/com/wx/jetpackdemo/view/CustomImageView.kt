@@ -81,7 +81,7 @@ class CustomImageView : AppCompatImageView {
             .dontAnimate()
             .into(object : CustomTarget<Drawable>(){
                 override fun onLoadCleared(placeholder: Drawable?) {
-                    TODO("Not yet implemented")
+
                 }
 
                 override fun onResourceReady(

@@ -12,7 +12,7 @@ import androidx.lifecycle.ViewModelProviders
 import com.wx.jetpackdemo.R
 import com.wx.libnavannotation.FragmentDestination
 
-@FragmentDestination(pageUrl = "main/tabs/my")
+@FragmentDestination(pageUrl = "main/tabs/my", needLogin = true)
 class MyFragment : Fragment() {
 
     private lateinit var myViewModel: MyViewModel
