@@ -6,11 +6,11 @@
     <data>
         <variable
             name="comment"
-            type="com.wx.jetpackdemo.model.Comment" />
+            type="com.mooc.ppjoke.model.Comment" />
 
         <import type="android.text.TextUtils" />
         <import type="android.view.View"/>
-        <import type="com.wx.jetpackdemo.utils.StringConvert"/>
+        <import type="com.mooc.ppjoke.utils.StringConvert"/>
     </data>
 
     <FrameLayout

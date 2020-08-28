@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.wx.jetpackdemo">
+    package="com.mooc.ppjoke">
     
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.INTERNET"/>
@@ -8,7 +8,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
     <application
-        android:name=".MainApplication"
+        android:name="com.mooc.ppjoke.MainApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -17,7 +17,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".MainActivity"
+            android:name="com.mooc.ppjoke.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/launcher">
             <intent-filter>
@@ -26,8 +26,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.publish.CaptureActivity"/>
-        <activity android:name=".ui.login.LoginActivity" />
+        <activity android:name="com.mooc.ppjoke.ui.publish.CaptureActivity"/>
+        <activity android:name="com.mooc.ppjoke.ui.login.LoginActivity" />
 
         <!-- 注册QQ SDKActivity -->
 <!--        QQ用到了 Apache HTTP client 的相关类-->
@@ -45,7 +45,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
-                <data android:scheme="tencent101866843" />
+                <data android:scheme="tencent101794421" />
             </intent-filter>
         </activity>
         <activity

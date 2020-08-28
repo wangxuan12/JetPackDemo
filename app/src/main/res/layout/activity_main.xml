@@ -30,7 +30,7 @@
         app:layout_constraintTop_toTopOf="parent"/>
 <!--        app:navGraph="@navigation/mobile_navigation" />-->
 
-    <com.wx.jetpackdemo.view.AppBottomBar
+    <com.mooc.ppjoke.view.AppBottomBar
         android:id="@+id/nav_view"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

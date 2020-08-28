@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <com.wx.jetpackdemo.view.CustomImageView
+    <com.mooc.ppjoke.view.CustomImageView
         android:id="@+id/blur_backgroud"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -12,7 +12,7 @@
 
     <!--播放视频view 动态加载-->
 
-    <com.wx.jetpackdemo.view.CustomImageView
+    <com.mooc.ppjoke.view.CustomImageView
         android:id="@+id/cover"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

@@ -9,9 +9,9 @@
             name="feed"
             type="Feed" />
 
-        <import type="com.wx.jetpackdemo.model.Feed" />
+        <import type="com.mooc.ppjoke.model.Feed" />
 
-        <import type="com.wx.jetpackdemo.utils.StringConvert" />
+        <import type="com.mooc.ppjoke.utils.StringConvert" />
     </data>
 
     <LinearLayout

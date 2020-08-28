@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-        <import type="com.wx.jetpackdemo.model.User"/>
+        <import type="com.mooc.ppjoke.model.User"/>
         <variable
             name="user"
             type="User" />

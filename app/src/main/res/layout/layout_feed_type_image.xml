@@ -8,7 +8,7 @@
             name="feed"
             type="Feed" />
 
-        <import type="com.wx.jetpackdemo.model.Feed" />
+        <import type="com.mooc.ppjoke.model.Feed" />
     </data>
 
     <LinearLayout
@@ -26,7 +26,7 @@
             app:feedText="@{feed.feeds_text}" />
 
         <!--图片视频区-->
-        <com.wx.jetpackdemo.view.CustomImageView
+        <com.mooc.ppjoke.view.CustomImageView
             android:id="@+id/feed_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
