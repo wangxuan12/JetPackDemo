@@ -8,7 +8,7 @@ import androidx.navigation.NavGraph
 import androidx.navigation.NavGraphNavigator
 import com.mooc.ppjoke.FixFragmentNavigator
 import com.mooc.ppjoke.model.Destination
-import com.mooc.libcommon.AppGlobals
+import com.mooc.libcommon.global.AppGlobals
 
 object NavGraphBuilder {
 

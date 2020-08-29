@@ -11,8 +11,18 @@ data class Ugc(
     private var hasLiked: Boolean = false,
     private var hasdiss: Boolean = false,
     var likeCount: Int = 0,
-    var shareCount: Int = 0
+    private var shareCount: Int = 0
 ) : BaseObservable(), Serializable {
+
+    @Bindable
+    fun getShareCount() : Int {
+        return shareCount
+    }
+
+    fun setShareCount(shareCount: Int) {
+        this.shareCount = shareCount
+        notifyPropertyChanged(BR._all)
+    }
 
     @Bindable
     fun getHasLiked(): Boolean {

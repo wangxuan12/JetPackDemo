@@ -4,7 +4,7 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.mooc.ppjoke.model.BottomBar
 import com.mooc.ppjoke.model.Destination
-import com.mooc.libcommon.AppGlobals
+import com.mooc.libcommon.global.AppGlobals
 import java.io.BufferedReader
 import java.io.InputStream
 import java.io.InputStreamReader

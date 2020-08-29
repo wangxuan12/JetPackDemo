@@ -1,4 +1,6 @@
-package com.mooc.libcommon
+package com.mooc.libcommon.utils
+
+import com.mooc.libcommon.global.AppGlobals
 
 object PixUtils {
     fun dp2px(dpValue : Int) : Int {

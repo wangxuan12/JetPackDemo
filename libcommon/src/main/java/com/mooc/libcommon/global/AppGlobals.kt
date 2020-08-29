@@ -1,4 +1,4 @@
-package com.mooc.libcommon
+package com.mooc.libcommon.global
 
 import android.annotation.SuppressLint
 import android.app.Application
@@ -11,5 +11,6 @@ object AppGlobals {
         method.invoke(null) as Application
     }
 
-    fun getApplication() : Application = sApplication
+    fun getApplication() : Application =
+        sApplication
 }

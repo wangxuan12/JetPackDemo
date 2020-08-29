@@ -10,7 +10,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import com.mooc.ppjoke.utils.BindingAdapters
-import com.mooc.libcommon.PixUtils
+import com.mooc.libcommon.utils.PixUtils
 import jp.wasabeef.glide.transformations.BlurTransformation
 
 class CustomImageView : AppCompatImageView {

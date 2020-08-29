@@ -8,7 +8,7 @@ import android.view.View
 import android.widget.FrameLayout
 import com.mooc.ppjoke.R
 import com.mooc.ppjoke.utils.BindingAdapters
-import com.mooc.libcommon.PixUtils
+import com.mooc.libcommon.utils.PixUtils
 import kotlinx.android.synthetic.main.layout_player_view.view.*
 
 class ListPlayerView : FrameLayout {

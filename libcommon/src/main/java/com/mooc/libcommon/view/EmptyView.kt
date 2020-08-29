@@ -1,4 +1,4 @@
-package com.mooc.libcommon
+package com.mooc.libcommon.view
 
 import android.content.Context
 import android.text.TextUtils
@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.LinearLayout
 import androidx.annotation.DrawableRes
+import com.mooc.libcommon.R
 import kotlinx.android.synthetic.main.layout_empty_view.view.*
 
 class EmptyView : LinearLayout {

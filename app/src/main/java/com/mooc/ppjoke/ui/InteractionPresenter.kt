@@ -1,24 +1,27 @@
 package com.mooc.ppjoke.ui
 
 import android.annotation.SuppressLint
+import android.content.Context
+import android.text.TextUtils
 import android.widget.Toast
 import androidx.arch.core.executor.ArchTaskExecutor
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import com.google.gson.JsonObject
-import com.mooc.libcommon.AppGlobals
+import com.mooc.libcommon.global.AppGlobals
 import com.mooc.libnetwork.ApiResponse
 import com.mooc.libnetwork.ApiService
 import com.mooc.libnetwork.JsonCallback
 import com.mooc.ppjoke.model.Feed
 import com.mooc.ppjoke.model.User
 import com.mooc.ppjoke.ui.login.UserManager
-import org.json.JSONObject
+import com.mooc.ppjoke.ui.share.ShareDialog
 
 object InteractionPresenter {
 
     private const val URL_TOGGLE_FEED_LIKE = "/ugc/toggleFeedLike"
     private const val URL_TOGGLE_FEED_DISS = "/ugc/dissFeed"
+    private const val URL_SHARE = "/ugc/increaseShareCount"
 
     private fun <T> T.toggle(owner: LifecycleOwner, block : (T) -> Unit) {
         if (UserManager.isLogin())  block(this)
@@ -77,6 +80,30 @@ object InteractionPresenter {
                     }
                 })
         }
+    }
+
+    //打开分享面板
+    @JvmStatic fun openShare(context: Context, feed: Feed) {
+        var shareContent = feed.feeds_text
+        if (!TextUtils.isEmpty(feed.url)) shareContent = feed.url
+        else if (!TextUtils.isEmpty(feed.cover)) shareContent = feed.cover
+        ShareDialog(context)
+            .setShareContent(shareContent)
+            .setShareItemClickListener {
+                ApiService.get<JsonObject>(URL_SHARE)
+                    .addParam("itemId", feed.itemId)
+                    .execute(object : JsonCallback<JsonObject>(){
+                        override fun onSuccess(response: ApiResponse<JsonObject>) {
+                            val count = response.body?.get("count")?.asInt ?: 0
+                            feed.getUgc().setShareCount(count)
+                        }
+
+                        override fun onError(response: ApiResponse<JsonObject>) {
+                            showToast(response.message)
+                        }
+                    })
+            }
+            .show()
     }
 
 }
