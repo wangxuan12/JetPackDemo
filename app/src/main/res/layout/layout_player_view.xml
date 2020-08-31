@@ -8,6 +8,7 @@
         android:id="@+id/blur_backgroud"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:transitionName="blur_image"
         tools:background="@color/color_theme_10" />
 
     <!--播放视频view 动态加载-->
@@ -15,13 +16,15 @@
     <com.mooc.ppjoke.view.CustomImageView
         android:id="@+id/cover"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:transitionName="cover" />
 
-    <ImageView
+    <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/play_btn"
         android:layout_width="@dimen/dp_40"
         android:layout_height="@dimen/dp_40"
         android:layout_gravity="center"
+        android:transitionName="play_btn"
         android:src="@drawable/icon_video_play"/>
 
     <!--视频播放进度条 动态加载-->
@@ -33,5 +36,6 @@
         android:layout_gravity="center"
         android:indeterminate="true"
         android:indeterminateTint="@color/color_theme_10"
+        android:transitionName="buffer_view"
         android:visibility="gone"/>
 </merge>

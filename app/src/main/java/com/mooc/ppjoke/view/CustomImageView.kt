@@ -72,25 +72,4 @@ class CustomImageView : AppCompatImageView {
         layoutParams.marginStart = if (height > width) marginLeft else 0
         setLayoutParams(layoutParams)
     }
-
-    @SuppressLint("CheckResult")
-    fun setBlurImageUrl(coverUrl: String?, radius: Int) {
-        Glide.with(this).load(coverUrl)
-            .transform(BlurTransformation())
-            .override(50)
-            .dontAnimate()
-            .into(object : CustomTarget<Drawable>(){
-                override fun onLoadCleared(placeholder: Drawable?) {
-
-                }
-
-                override fun onResourceReady(
-                    resource: Drawable,
-                    transition: Transition<in Drawable>?
-                ) {
-                    background = resource
-                }
-            })
-
-    }
 }

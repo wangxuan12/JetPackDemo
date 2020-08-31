@@ -24,7 +24,7 @@ data class Feed constructor(
 ) : BaseObservable(), Serializable {
     companion object {
         const val TYPE_IMAGE = 1
-        const val TYPE_VIDEO = 1
+        const val TYPE_VIDEO = 2
     }
 
     @Bindable

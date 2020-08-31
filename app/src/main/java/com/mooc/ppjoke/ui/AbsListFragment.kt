@@ -44,27 +44,30 @@ abstract class AbsListFragment<T, VM : AbsViewModel<T>> : Fragment(), OnRefreshL
         context?.also {context -> ContextCompat.getDrawable(context, R.drawable.list_divider)?.also { decoration.setDrawable(it) } }
         binding.recyclerView.addItemDecoration(decoration)
 
-        afterCreateView()
+        genericViewModel()
         return binding.root
     }
 
-    abstract fun afterCreateView()
 
     fun submitList(pagedList: PagedList<T>) {
         pagedList.takeIf { it.size > 0 }?.also { adapter?.submitList(it) }
         finishRefresh(pagedList.size > 0)
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    fun genericViewModel() {
+        //利用 子类传递的 泛型参数实例化出absViewModel 对象。
         val type: ParameterizedType = javaClass.genericSuperclass as ParameterizedType
         val arguments = type.actualTypeArguments
         arguments.takeIf { it.size > 1 }?.also {
             val argument = it[1]
             val modelClazz = (argument as Class<*>).asSubclass(AbsViewModel::class.java)
             viewModel = ViewModelProvider(this).get(modelClazz) as  VM?
+
+            //触发页面初始化数据加载的逻辑
             viewModel?.getPageData()?.observe(viewLifecycleOwner,
                 Observer { pagedList -> submitList(pagedList) })
+
+            //监听分页时有无更多数据,以决定是否关闭上拉加载的动画
             viewModel?.getBoundaryPageData()?.observe(viewLifecycleOwner, Observer { hasData -> finishRefresh(hasData) })
         }
     }
