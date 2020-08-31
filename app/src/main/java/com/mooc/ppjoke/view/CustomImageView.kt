@@ -5,6 +5,8 @@ import android.content.Context
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.view.ViewGroup
+import android.widget.FrameLayout
+import android.widget.LinearLayout
 import androidx.appcompat.widget.AppCompatImageView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
@@ -68,8 +70,14 @@ class CustomImageView : AppCompatImageView {
             finalHight = maxHeight
             finalWidth = (width * (finalHight * 1.0f / height)).toInt()
         }
-        val layoutParams = ViewGroup.MarginLayoutParams(finalWidth, finalHight)
-        layoutParams.marginStart = if (height > width) marginLeft else 0
+        val layoutParams = layoutParams
+        layoutParams.width = finalWidth
+        layoutParams.height = finalHight
+        if (layoutParams is FrameLayout.LayoutParams) {
+            layoutParams.leftMargin = if (height > width) PixUtils.dp2px(marginLeft) else 0
+        } else if (layoutParams is LinearLayout.LayoutParams) {
+            layoutParams.leftMargin = if (height > width) PixUtils.dp2px(marginLeft) else 0
+        }
         setLayoutParams(layoutParams)
     }
 }

@@ -18,7 +18,18 @@ import kotlinx.android.synthetic.main.layout_refresh_view.*
 @FragmentDestination(pageUrl = "main/tabs/home", asStarter = true)
 class HomeFragment : AbsListFragment<Feed, HomeViewModel>() {
     private lateinit var playDetector: PageListPlayDetector
-    private lateinit var feedType: String
+    companion object {
+
+        private lateinit var feedType: String
+
+        fun newInstance(feedType: String): HomeFragment {
+            val args = Bundle()
+            args.putString("feedType", feedType)
+            val fragment = HomeFragment()
+            fragment.arguments = args
+            return fragment
+        }
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         viewModel?.getCacheLiveData()?.observe(viewLifecycleOwner, Observer { pagedList -> adapter?.submitList(pagedList) })

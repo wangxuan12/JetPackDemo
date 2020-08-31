@@ -17,11 +17,8 @@ import com.mooc.libcommon.global.AppGlobals
 object PageListPlayManager {
     private val pageListPlayMap = mutableMapOf<String, PageListPlay>()
     fun get(pageName : String) : PageListPlay {
-        var pageListPlay = pageListPlayMap[pageName]
-        if (pageListPlay == null) {
-            pageListPlay = PageListPlay()
-            pageListPlayMap[pageName] = pageListPlay
-        }
+        val pageListPlay = pageListPlayMap.getOrDefault(pageName, PageListPlay())
+        pageListPlayMap.putIfAbsent(pageName, pageListPlay)
         return pageListPlay
     }
 

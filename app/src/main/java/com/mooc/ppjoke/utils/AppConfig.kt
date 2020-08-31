@@ -5,6 +5,7 @@ import com.google.gson.reflect.TypeToken
 import com.mooc.ppjoke.model.BottomBar
 import com.mooc.ppjoke.model.Destination
 import com.mooc.libcommon.global.AppGlobals
+import com.mooc.ppjoke.model.SofaTab
 import java.io.BufferedReader
 import java.io.InputStream
 import java.io.InputStreamReader
@@ -21,9 +22,18 @@ object AppConfig {
         Gson().fromJson(content, BottomBar::class.java)
     }
 
+    private val sSofaTab : SofaTab by lazy {
+        val content : String = parseFile("sofa_tabs_config.json")
+        val sofaTab = Gson().fromJson(content, SofaTab::class.java)
+        sofaTab.tabs.sortedByDescending { it.index }
+        sofaTab
+    }
+
     fun getDestConfig(): Map<String, Destination> = sDestConfig
 
     fun getBottomBar() : BottomBar = sBottomBar
+
+    fun getSofaTab() = sSofaTab
 
     private fun parseFile(fileName : String) : String {
         val assets = AppGlobals.getApplication().applicationContext.resources.assets
