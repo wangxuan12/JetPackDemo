@@ -4,6 +4,7 @@ import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -116,15 +117,25 @@ class SofaFragment : Fragment() {
         return HomeFragment.newInstance(tabs[position].tag)
     }
 
-//    override fun onHiddenChanged(hidden: Boolean) {
-//        super.onHiddenChanged(hidden)
-//        for (fragment: Fragment in childFragmentManager.fragments) {
-//            if (fragment.isAdded && fragment.isVisible) {
-//                fragment.onHiddenChanged(hidden)
-//                break
-//            }
-//        }
-//    }
+    override fun onHiddenChanged(hidden: Boolean) {
+        super.onHiddenChanged(hidden)
+        for (fragment: Fragment in childFragmentManager.fragments) {
+            if (fragment.isAdded && fragment.isVisible) {
+                fragment.onHiddenChanged(hidden)
+                break
+            }
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.e("SofaFragment", "onResume: " )
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.e("SofaFragment", "onPause: " )
+    }
 
     override fun onDestroy() {
         mediator.detach()

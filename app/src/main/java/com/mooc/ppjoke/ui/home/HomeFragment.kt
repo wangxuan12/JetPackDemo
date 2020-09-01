@@ -1,6 +1,7 @@
 package com.mooc.ppjoke.ui.home
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.paging.ItemKeyedDataSource
@@ -18,9 +19,9 @@ import kotlinx.android.synthetic.main.layout_refresh_view.*
 @FragmentDestination(pageUrl = "main/tabs/home", asStarter = true)
 class HomeFragment : AbsListFragment<Feed, HomeViewModel>() {
     private lateinit var playDetector: PageListPlayDetector
-    companion object {
+    private lateinit var feedType: String
 
-        private lateinit var feedType: String
+    companion object {
 
         fun newInstance(feedType: String): HomeFragment {
             val args = Bundle()
@@ -105,17 +106,21 @@ class HomeFragment : AbsListFragment<Feed, HomeViewModel>() {
         super.onHiddenChanged(hidden)
         if (hidden) playDetector.onPause()
         else playDetector.onResume()
+        if (hidden) Log.e("HomeFragment", "onHiddenPause: $feedType" )
+        else Log.e("HomeFragment", "onHiddenReesume: $feedType" )
     }
 
     override fun onResume() {
         super.onResume()
-        playDetector.onResume()
+        Log.e("HomeFragment", "onResume: $feedType" )
+        if (parentFragment?.let { it.isVisible && isVisible } ?: isVisible) playDetector.onResume()
     }
 
     override fun onPause() {
         //如果是跳转到详情页,就不需要 暂停视频播放了
         //如果是前后台切换 或者去别的页面了 都是需要暂停视频播放的
         super.onPause()
+        Log.e("HomeFragment", "onPause: $feedType")
         playDetector.onPause()
     }
 
