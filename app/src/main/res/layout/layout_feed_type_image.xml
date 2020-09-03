@@ -23,7 +23,8 @@
 
         <include
             layout="@layout/layout_feed_text"
-            app:feedText="@{feed.feeds_text}" />
+            app:feedText="@{feed.feeds_text}"
+            app:lines="@{3}"/>
 
         <!--图片视频区-->
         <com.mooc.ppjoke.view.CustomImageView

@@ -15,6 +15,7 @@ import com.mooc.ppjoke.R
 import com.mooc.ppjoke.databinding.LayoutFeedTypeImageBinding
 import com.mooc.ppjoke.databinding.LayoutFeedTypeVideoBinding
 import com.mooc.ppjoke.model.Feed
+import com.mooc.ppjoke.ui.detail.FeedDetailActivity
 import com.mooc.ppjoke.view.ListPlayerView
 
 open class FeedAdapter(val context: Context?, var category : String) :
@@ -49,8 +50,13 @@ open class FeedAdapter(val context: Context?, var category : String) :
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        getItem(position)?.also {
-            context?.also { context -> holder.bindData(it, context) }
+        getItem(position)?.also {feed ->
+            context?.also { context ->
+                holder.bindData(feed, context)
+                holder.itemView.setOnClickListener {
+                    FeedDetailActivity.start(context, feed, category)
+                }
+            }
         }
     }
 

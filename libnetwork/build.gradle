@@ -57,7 +57,5 @@ dependencies {
     //noinspection LifecycleAnnotationProcessorWithJava8
     kapt "androidx.lifecycle:lifecycle-compiler:$lifecycle_version"
 
-    implementation 'com.google.code.gson:gson:2.8.6'
-
-    compileOnly project(":libcommon")
+    implementation project(":libcommon")
 }

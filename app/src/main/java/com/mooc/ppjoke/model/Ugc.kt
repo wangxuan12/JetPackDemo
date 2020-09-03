@@ -7,7 +7,7 @@ import java.io.Serializable
 
 data class Ugc(
     var commentCount: Int = 0,
-    val hasFavorite: Boolean = false,
+    private var hasFavorite: Boolean = false,
     private var hasLiked: Boolean = false,
     private var hasdiss: Boolean = false,
     var likeCount: Int = 0,
@@ -50,6 +50,16 @@ data class Ugc(
         if (this.hasdiss == hasdiss) return
         if (hasdiss) setHasLiked(false)
         this.hasdiss = hasdiss
+        notifyPropertyChanged(BR._all)
+    }
+
+    @Bindable
+    fun getHasFavorite(): Boolean {
+        return hasFavorite
+    }
+
+    fun setHasFavorite(hasFavorite: Boolean) {
+        this.hasFavorite = hasFavorite
         notifyPropertyChanged(BR._all)
     }
 }

@@ -30,14 +30,24 @@ abstract class AbsViewModel<T> : ViewModel() {
 
         }
 
+        //PagedList数据被加载 情况的边界回调callback
+        //但 不是每一次分页 都会回调这里，具体请看 ContiguousPagedList#mReceiver#onPageResult
+        //deferBoundaryCallbacks
         val callback = object : PagedList.BoundaryCallback<T>(){
             override fun onZeroItemsLoaded() {
+                //新提交的PagedList中没有数据
                 boundaryPageData.postValue(false)
             }
 
             override fun onItemAtFrontLoaded(itemAtFront: T) {
+                //新提交的PagedList中第一条数据被加载到列表上
                 boundaryPageData.postValue(true)
             }
+
+            //新提交的PagedList中最后一条数据被加载到列表上
+//            override fun onItemAtEndLoaded(itemAtEnd: T) {
+//                super.onItemAtEndLoaded(itemAtEnd)
+//            }
         }
 
         pageData = LivePagedListBuilder(factory, config)
@@ -60,4 +70,9 @@ abstract class AbsViewModel<T> : ViewModel() {
     }
 
     abstract fun createDataSource(): DataSource<Int, T>
+
+    //可以在这个方法里 做一些清理 的工作
+//    override fun onCleared() {
+//        super.onCleared()
+//    }
 }

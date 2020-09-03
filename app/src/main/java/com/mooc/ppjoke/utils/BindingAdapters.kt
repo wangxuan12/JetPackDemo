@@ -13,7 +13,7 @@ import jp.wasabeef.glide.transformations.BlurTransformation
 object BindingAdapters {
 
     @SuppressLint("CheckResult")
-    @BindingAdapter("app:image_url", "app:isCircle", requireAll = true)
+    @BindingAdapter("image_url", "isCircle", requireAll = true)
     @JvmStatic fun setImageUrlBinding(view : ImageView, imageUrl : String?, isCircle : Boolean) {
         val builder = Glide.with(view).load(imageUrl)
         if (isCircle) builder.transform(CircleCrop())
