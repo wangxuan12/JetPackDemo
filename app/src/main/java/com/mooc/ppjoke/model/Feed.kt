@@ -23,6 +23,7 @@ data class Feed constructor(
     private var ugc: Ugc? = null
 ) : BaseObservable(), Serializable {
     companion object {
+        private const val serialVersionUID: Long = -90000002L
         const val TYPE_IMAGE = 1
         const val TYPE_VIDEO = 2
     }
@@ -32,7 +33,15 @@ data class Feed constructor(
         return ugc ?: Ugc().also { ugc = it }
     }
 
+    fun setUgc(ugc: Ugc) {
+        this.ugc = ugc
+    }
+
     fun getAuthor() : User? {
         return author
+    }
+
+    fun setAuthor(author: User?) {
+        this.author = author
     }
 }

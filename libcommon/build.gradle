@@ -43,4 +43,7 @@ dependencies {
     //stetho，Chrome的inspect进行调试
     api 'com.facebook.stetho:stetho:1.5.0'
 
+    //包含了 viewmodel 和 livedata
+    api 'androidx.lifecycle:lifecycle-extensions:2.2.0'
+
 }

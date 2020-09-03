@@ -7,16 +7,20 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.Observer
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.mooc.libcommon.extention.LiveDataBus
 import com.mooc.ppjoke.BR
 import com.mooc.ppjoke.R
 import com.mooc.ppjoke.databinding.LayoutFeedTypeImageBinding
 import com.mooc.ppjoke.databinding.LayoutFeedTypeVideoBinding
 import com.mooc.ppjoke.model.Feed
+import com.mooc.ppjoke.ui.InteractionPresenter
 import com.mooc.ppjoke.ui.detail.FeedDetailActivity
 import com.mooc.ppjoke.view.ListPlayerView
+import java.util.*
 
 open class FeedAdapter(val context: Context?, var category : String) :
     PagedListAdapter<Feed, FeedAdapter.ViewHolder>(object : DiffUtil.ItemCallback<Feed>() {
@@ -55,8 +59,29 @@ open class FeedAdapter(val context: Context?, var category : String) :
                 holder.bindData(feed, context)
                 holder.itemView.setOnClickListener {
                     FeedDetailActivity.start(context, feed, category)
+                    (feedObserver ?: FeedObserver()).also {
+                        feedObserver = it
+                        LiveDataBus.with<Feed>(InteractionPresenter.DATA_FROM_INTERACTION)
+                            .observe(context as LifecycleOwner, it)
+                        it.feed = feed
+                    }
                 }
             }
+        }
+    }
+
+
+    private var feedObserver: FeedObserver? = null
+
+    private class FeedObserver: Observer<Feed> {
+        var feed: Feed? = null
+
+        override fun onChanged(t: Feed?) {
+            if (feed == null || t == null) return
+            if (feed?.id != t.id) return
+            feed?.setAuthor(t.getAuthor())
+            feed?.setUgc(t.getUgc())
+            feed?.notifyChange()
         }
     }
 

@@ -8,6 +8,7 @@ import androidx.arch.core.executor.ArchTaskExecutor
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import com.google.gson.JsonObject
+import com.mooc.libcommon.extention.LiveDataBus
 import com.mooc.libcommon.global.AppGlobals
 import com.mooc.libnetwork.ApiResponse
 import com.mooc.libnetwork.ApiService
@@ -20,7 +21,7 @@ import com.mooc.ppjoke.ui.share.ShareDialog
 
 object InteractionPresenter {
 
-    private const val DATA_FROM_INTERACTION = "data_from_interaction"
+    const val DATA_FROM_INTERACTION = "data_from_interaction"
     private const val URL_TOGGLE_FEED_LIKE = "/ugc/toggleFeedLike"
     private const val URL_TOGGLE_FEED_DISS = "/ugc/dissFeed"
     private const val URL_SHARE = "/ugc/increaseShareCount"
@@ -56,6 +57,8 @@ object InteractionPresenter {
                     override fun onSuccess(response: ApiResponse<JsonObject>) {
                         val hasLiked = response.body?.get("hasLiked")?.asBoolean ?: false
                         it.getUgc().setHasLiked(hasLiked)
+                        LiveDataBus.with<Feed>(DATA_FROM_INTERACTION)
+                            .postValue(feed)
                     }
 
                     override fun onError(response: ApiResponse<JsonObject>) {
@@ -99,6 +102,8 @@ object InteractionPresenter {
                         override fun onSuccess(response: ApiResponse<JsonObject>) {
                             val count = response.body?.get("count")?.asInt ?: 0
                             feed.getUgc().setShareCount(count)
+                            LiveDataBus.with<Feed>(DATA_FROM_INTERACTION)
+                                .postValue(feed)
                         }
 
                         override fun onError(response: ApiResponse<JsonObject>) {
@@ -138,6 +143,8 @@ object InteractionPresenter {
                     override fun onSuccess(response: ApiResponse<JsonObject>) {
                         val hasFavorite = response.body?.get("hasFavorite")?.asBoolean ?: false
                         it.getUgc().setHasFavorite(hasFavorite)
+                        LiveDataBus.with<Feed>(DATA_FROM_INTERACTION)
+                            .postValue(feed)
                     }
 
                     override fun onError(response: ApiResponse<JsonObject>) {
@@ -157,6 +164,8 @@ object InteractionPresenter {
                     override fun onSuccess(response: ApiResponse<JsonObject>) {
                         val hasFollow = response.body?.get("hasLiked")?.asBoolean ?: false
                         it.getAuthor()?.setHasFollow(hasFollow)
+                        LiveDataBus.with<Feed>(DATA_FROM_INTERACTION)
+                            .postValue(feed);
                     }
 
                     override fun onError(response: ApiResponse<JsonObject>) {
