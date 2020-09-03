@@ -12,6 +12,11 @@ object UserManager {
     private val userLiveData: MutableLiveData<User> = MutableLiveData()
     private var mUser : User? = null
 
+    init {
+        val user = CacheManager.getCache(KEY_CACHE_USER) as User?
+        user?.takeIf { it.expires_time > System.currentTimeMillis() }?.let { mUser = it }
+    }
+
     fun save(user : User) {
         mUser = user
         CacheManager.save(KEY_CACHE_USER, user)
