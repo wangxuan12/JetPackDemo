@@ -24,27 +24,29 @@ class HomeViewModel : AbsViewModel<Feed>() {
     private var loadAfter : AtomicBoolean = AtomicBoolean(false)
     private var feedType: String? = null
 
-    override fun createDataSource(): DataSource<Int, Feed> {
-        return dataSource
-    }
-
     fun getCacheLiveData() : MutableLiveData<PagedList<Feed>> {
         return cacheLiveData
     }
 
-    val dataSource = object : ItemKeyedDataSource<Int, Feed>() {
+    override fun createDataSource(): DataSource<Int, Feed> {
+        return FeedDataSource()
+    }
+
+    inner class FeedDataSource: ItemKeyedDataSource<Int, Feed>() {
         override fun loadInitial(
             params: LoadInitialParams<Int>,
             callback: LoadInitialCallback<Feed>
         ) {
             //加载初始化数据
-            loadData(0, callback)
+            Log.e("homeviewmodel", "loadInitial: ")
+            loadData(0, params.requestedLoadSize, callback)
             withCache = false
         }
 
         override fun loadAfter(params: LoadParams<Int>, callback: LoadCallback<Feed>) {
             //数据向后加载
-            loadData(params.key, callback)
+            Log.e("homeviewmodel", "loadAfter: ")
+            loadData(params.key, params.requestedLoadSize, callback)
         }
 
         override fun loadBefore(params: LoadParams<Int>, callback: LoadCallback<Feed>) {
@@ -59,13 +61,13 @@ class HomeViewModel : AbsViewModel<Feed>() {
     }
 
     //  /feeds/queryHotFeedsList
-    private fun loadData(key: Int, callback: ItemKeyedDataSource.LoadCallback<Feed>) {
+    private fun loadData(key: Int, count: Int, callback: ItemKeyedDataSource.LoadCallback<Feed>) {
         if (key > 0) loadAfter.set(true)
         val request = ApiService.get<List<Feed>>("/feeds/queryHotFeedsList")
             .addParam("feedType", feedType ?: "all")
             .addParam("userId", UserManager.getUserId())
             .addParam("feedId", key)
-            .addParam("pageCount", 10)
+            .addParam("pageCount", count)
             .responseType(object : TypeToken<List<Feed>>() {}.type)
 
         if (withCache) {
@@ -104,7 +106,7 @@ class HomeViewModel : AbsViewModel<Feed>() {
             return
         }
         ArchTaskExecutor.getIOThreadExecutor().execute {
-            loadData(id, callback)
+            loadData(id, config.pageSize, callback)
         }
     }
 

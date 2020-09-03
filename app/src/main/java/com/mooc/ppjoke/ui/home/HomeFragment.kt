@@ -69,11 +69,11 @@ class HomeFragment : AbsListFragment<Feed, HomeViewModel>() {
     }
 
     override fun onLoadMore(refreshLayout: RefreshLayout) {
-//        val currentList = adapter?.currentList
-//        if (currentList.isNullOrEmpty()) {
-//            finishRefresh(false)
-//            return
-//        }
+        val currentList = adapter?.currentList
+        if (currentList.isNullOrEmpty()) {
+            finishRefresh(false)
+            return
+        }
         adapter?.also {
             val feed = it.currentList?.get(it.itemCount - 1)
             val config = it.currentList?.config
@@ -88,7 +88,7 @@ class HomeFragment : AbsListFragment<Feed, HomeViewModel>() {
 
                         //这里要把列表上已经显示的先添加到dataSource.data中
                         //而后把本次分页回来的数据再添加到dataSource.data中
-//                        dataSource.data.addAll(currentList)
+                        dataSource.data.addAll(currentList)
                         dataSource.data.addAll(data)
                         config?.let { c ->
                             val pagedList = dataSource.buildNewPagedList(c)
