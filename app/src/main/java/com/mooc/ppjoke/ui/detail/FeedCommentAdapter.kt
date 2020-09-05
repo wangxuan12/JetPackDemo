@@ -6,12 +6,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.Observer
+import androidx.paging.ItemKeyedDataSource
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.mooc.libcommon.extention.AbsPagedListAdapter
 import com.mooc.libcommon.utils.PixUtils
 import com.mooc.ppjoke.databinding.LayoutFeedCommentListItemBinding
 import com.mooc.ppjoke.model.Comment
+import com.mooc.ppjoke.ui.InteractionPresenter
+import com.mooc.ppjoke.ui.MutableItemKeyedDataSource
 import com.mooc.ppjoke.ui.login.UserManager
 
 open class FeedCommentAdapter(val context: Context) : AbsPagedListAdapter<Comment, FeedCommentAdapter.ViewHolder>(object :
@@ -33,7 +37,47 @@ open class FeedCommentAdapter(val context: Context) : AbsPagedListAdapter<Commen
     }
 
     override fun onBindViewHolder2(holder: ViewHolder, i: Int) {
-        getItem(i)?.let { holder.bindView(it, context) }
+        getItem(i)?.let { comment ->
+            holder.bindView(comment, context)
+            holder.binding.commentDelete.setOnClickListener {view ->
+                InteractionPresenter.deleteFeedComment(context, comment.itemId, comment.commentId)
+                    .observe(context as LifecycleOwner, Observer {
+                        if (it) deleteAndRefresh(comment)
+                    })
+            }
+        }
+    }
+
+    fun addAndRefreshList(comment: Comment) {
+        currentList?.also {
+            val dataSource = object :
+                MutableItemKeyedDataSource<Int, Comment>(it.dataSource as ItemKeyedDataSource<Int, Comment>) {
+                override fun getKey(item: Comment): Int {
+                    return item.id
+                }
+            }
+            dataSource.data.add(comment)
+            dataSource.data.addAll(it)
+            val pageList = dataSource.buildNewPagedList(it.config)
+            submitList(pageList)
+        }
+    }
+
+    // TODO: 2020/9/5 删除后显示错误问题
+    fun deleteAndRefresh(comment: Comment) {
+        currentList?.also {
+            val dataSource = object :
+                MutableItemKeyedDataSource<Int, Comment>(it.dataSource as ItemKeyedDataSource<Int, Comment>) {
+                override fun getKey(item: Comment): Int {
+                    return item.id
+                }
+            }
+            for (item in it) {
+                if (comment != item) dataSource.data.add(comment)
+            }
+            val pageList = dataSource.buildNewPagedList(it.config)
+            submitList(pageList)
+        }
     }
 
     class ViewHolder(itemView: View, val binding: LayoutFeedCommentListItemBinding): RecyclerView.ViewHolder(itemView) {

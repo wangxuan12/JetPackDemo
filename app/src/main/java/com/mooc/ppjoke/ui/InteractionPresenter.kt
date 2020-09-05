@@ -1,15 +1,20 @@
 package com.mooc.ppjoke.ui
 
 import android.annotation.SuppressLint
+import android.app.AlertDialog
 import android.content.Context
+import android.content.DialogInterface
 import android.text.TextUtils
 import android.widget.Toast
 import androidx.arch.core.executor.ArchTaskExecutor
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.google.gson.JsonObject
 import com.mooc.libcommon.extention.LiveDataBus
 import com.mooc.libcommon.global.AppGlobals
+import com.mooc.libcommon.utils.showToast
 import com.mooc.libnetwork.ApiResponse
 import com.mooc.libnetwork.ApiService
 import com.mooc.libnetwork.JsonCallback
@@ -38,13 +43,6 @@ object InteractionPresenter {
         liveData.observe(owner, Observer { user ->
             user?.also { observer.onChanged(it) }
         })
-    }
-
-    @SuppressLint("RestrictedApi")
-    private fun showToast(message : String?) {
-        ArchTaskExecutor.getMainThreadExecutor().execute {
-            Toast.makeText(AppGlobals.getApplication(), message, Toast.LENGTH_SHORT).show()
-        }
     }
 
     //给一个帖子点赞/取消点赞，它和给帖子点踩一踩是互斥的
@@ -173,6 +171,44 @@ object InteractionPresenter {
                     }
                 })
         }
+    }
+
+    fun deleteFeedComment(context: Context, itemId: Long, commentId: Long): LiveData<Boolean> {
+        val liveData = MutableLiveData<Boolean>()
+        AlertDialog.Builder(context)
+            .setNegativeButton("删除") { dialog, which ->
+                dialog.dismiss()
+                deleteFeedCommentInternal(liveData, itemId, commentId)
+            }
+            .setPositiveButton("取消") { dialog, which ->
+                dialog.dismiss()
+            }
+            .setMessage("确定要删除这条评论吗？")
+            .create()
+            .show()
+        return liveData
+    }
+
+    private fun deleteFeedCommentInternal(
+        liveData: MutableLiveData<Boolean>,
+        itemId: Long,
+        commentId: Long
+    ) {
+        ApiService.get<JsonObject>("/comment/deleteComment")
+            .addParam("userId", UserManager.getUserId())
+            .addParam("commentId", commentId)
+            .addParam("itemId", itemId)
+            .execute(object : JsonCallback<JsonObject>(){
+                override fun onSuccess(response: ApiResponse<JsonObject>) {
+                    val result = response.body?.get("result")?.asBoolean ?: false
+                    liveData.postValue(result)
+                    showToast("评论删除成功")
+                }
+
+                override fun onError(response: ApiResponse<JsonObject>) {
+                    showToast(response.message)
+                }
+            })
     }
 
 }

@@ -7,7 +7,7 @@ object TimeUtils {
 
         //兼容脏数据。抓取的数据有些帖子的时间戳不是标准的十三位
         val diff = time.let { if (time.toString().length < 13) time * 1000 else time }
-            .let { (timeInMills - it) / 10 }
+            .let { (timeInMills - it) / 1000 }
         return when (diff) {
             in 0..5 -> "刚刚"
             in 5 until 60 -> "${diff}秒前"

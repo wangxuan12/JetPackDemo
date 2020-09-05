@@ -16,6 +16,7 @@ import com.mooc.ppjoke.model.Comment
 import com.mooc.ppjoke.model.Feed
 
 abstract class ViewHandler(val activity: FragmentActivity) {
+    private var commentDialog: CommentDialog? = null
     protected lateinit var interactionBinding: LayoutFeedDetailBottomInteractionBinding
     protected lateinit var feed: Feed
     protected lateinit var recyclerView: RecyclerView
@@ -43,6 +44,14 @@ abstract class ViewHandler(val activity: FragmentActivity) {
             listAdapter.submitList(it)
             handleEmpty(it.size > 0)
         })
+        interactionBinding.inputView.setOnClickListener {
+            if (commentDialog == null) commentDialog = CommentDialog.newInstance(feed.itemId)
+            commentDialog?.onAddComment {
+                handleEmpty(true)
+                listAdapter.addAndRefreshList(it)
+            }
+            commentDialog?.show(activity.supportFragmentManager, "comment_dialog")
+        }
     }
 
     private var emptyView: EmptyView? = null

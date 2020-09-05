@@ -31,6 +31,7 @@
         <activity android:name="com.mooc.ppjoke.ui.login.LoginActivity" />
         <activity
             android:name=".ui.detail.FeedDetailActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/feedDetail" />
 
         <!-- 注册QQ SDKActivity -->
