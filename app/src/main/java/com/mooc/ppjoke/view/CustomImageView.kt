@@ -1,19 +1,16 @@
 package com.mooc.ppjoke.view
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
-import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.LinearLayout
 import androidx.appcompat.widget.AppCompatImageView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
-import com.mooc.ppjoke.utils.BindingAdapters
 import com.mooc.libcommon.utils.PixUtils
-import jp.wasabeef.glide.transformations.BlurTransformation
+import com.mooc.ppjoke.utils.BindingAdapters
 
 class CustomImageView : AppCompatImageView {
 
@@ -36,7 +33,6 @@ class CustomImageView : AppCompatImageView {
         if (width <= 0 || height <= 0) {
             Glide.with(this).load(imageUrl).into(object : CustomTarget<Drawable>() {
                 override fun onLoadCleared(placeholder: Drawable?) {
-                    TODO("Not yet implemented")
                 }
 
                 override fun onResourceReady(
