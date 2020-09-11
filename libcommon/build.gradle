@@ -46,4 +46,6 @@ dependencies {
     //包含了 viewmodel 和 livedata
     api 'androidx.lifecycle:lifecycle-extensions:2.2.0'
 
+    //aliyun oss
+    api 'com.aliyun.dpa:oss-android-sdk:+'
 }

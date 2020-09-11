@@ -1,5 +1,6 @@
 package com.mooc.ppjoke.ui.detail
 
+import android.content.Intent
 import android.view.ViewGroup
 import androidx.annotation.CallSuper
 import androidx.fragment.app.FragmentActivity
@@ -69,5 +70,9 @@ abstract class ViewHandler(val activity: FragmentActivity) {
                 listAdapter.addHeaderView(it)
             }
         }
+    }
+
+    fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        commentDialog?.onActivityResult(requestCode, resultCode, data)
     }
 }

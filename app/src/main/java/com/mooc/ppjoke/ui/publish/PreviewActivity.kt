@@ -1,5 +1,6 @@
 package com.mooc.ppjoke.ui.publish
 
+import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -30,7 +31,7 @@ class PreviewActivity : AppCompatActivity(), View.OnClickListener {
         const val REQ_PREVIEW = 1000
 
         fun startActivityForResult(
-            activity: CaptureActivity,
+            activity: Activity,
             previewUrl: String,
             isVideo: Boolean,
             btnText: String,

@@ -1,5 +1,6 @@
 package com.mooc.ppjoke.ui.detail
 
+import android.app.Activity
 import android.content.Context
 import android.text.TextUtils
 import android.view.LayoutInflater
@@ -17,6 +18,7 @@ import com.mooc.ppjoke.model.Comment
 import com.mooc.ppjoke.ui.InteractionPresenter
 import com.mooc.ppjoke.ui.MutableItemKeyedDataSource
 import com.mooc.ppjoke.ui.login.UserManager
+import com.mooc.ppjoke.ui.publish.PreviewActivity
 
 open class FeedCommentAdapter(val context: Context) : AbsPagedListAdapter<Comment, FeedCommentAdapter.ViewHolder>(object :
     DiffUtil.ItemCallback<Comment>() {
@@ -44,6 +46,10 @@ open class FeedCommentAdapter(val context: Context) : AbsPagedListAdapter<Commen
                     .observe(context as LifecycleOwner, Observer {
                         if (it) deleteAndRefresh(comment)
                     })
+            }
+            holder.binding.commentCover.setOnClickListener {
+                val isVideo = comment.commentType == Comment.COMMENT_TYPE_VIDEO
+                PreviewActivity.startActivityForResult(context as Activity, if (isVideo) comment.videoUrl ?: "" else comment.imageUrl ?: "", isVideo, "")
             }
         }
     }

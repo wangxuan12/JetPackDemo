@@ -34,4 +34,9 @@ class FeedDetailActivity : AppCompatActivity() {
             else VideoViewHandler(this)
         viewHandler.bindData(feed)
     }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        viewHandler.onActivityResult(requestCode, resultCode, data)
+    }
 }

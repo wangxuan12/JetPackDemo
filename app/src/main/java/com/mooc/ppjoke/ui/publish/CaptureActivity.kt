@@ -2,11 +2,16 @@ package com.mooc.ppjoke.ui.publish
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.app.Activity
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.media.MediaScannerConnection
 import android.os.Bundle
 import android.os.Environment
 import android.os.PersistableBundle
+import android.util.Log
 import android.util.Size
 import android.view.Surface
 import android.view.View
@@ -33,22 +38,30 @@ class CaptureActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLayoutCaptureBinding
     private val resolution = Size(1280, 720)
     private var outputFilePath: String = ""
-    val RESULT_FILE_PATH = "file_path"
-    val RESULT_FILE_WIDTH = "file_width"
-    val RESULT_FILE_HEIGHT = "file_height"
-    val RESULT_FILE_TYPE = "file_type"
+    private val deniedPermission = mutableListOf<String>()
 
-    private val PERMISSIONS = arrayOf(
-        Manifest.permission.CAMERA,
-        Manifest.permission.WRITE_EXTERNAL_STORAGE,
-        Manifest.permission.RECORD_AUDIO
-    )
+    companion object {
+        val RESULT_FILE_PATH = "file_path"
+        val RESULT_FILE_WIDTH = "file_width"
+        val RESULT_FILE_HEIGHT = "file_height"
+        val RESULT_FILE_TYPE = "file_type"
 
-    private val PERMISSION_CODE = 1000
+        private val PERMISSION_CODE = 1000
+        private val PERMISSIONS = arrayOf(
+            Manifest.permission.CAMERA,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.RECORD_AUDIO
+        )
+
+        const val REQ_CAPTURE = 10001
+        fun startActivityForResult(activity: Activity) {
+            activity.startActivityForResult(Intent(activity, CaptureActivity::class.java), REQ_CAPTURE)
+        }
+    }
 
     // TODO: 2020/9/8 存储访问升级
-    override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
-        super.onCreate(savedInstanceState, persistentState)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         setContentView(R.layout.fragment_home)
         binding = DataBindingUtil.setContentView<ActivityLayoutCaptureBinding>(this,
             R.layout.activity_layout_capture)
@@ -116,6 +129,38 @@ class CaptureActivity : AppCompatActivity() {
         PreviewActivity.startActivityForResult(this, outputFilePath, !takingPicture, "完成")
     }
 
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == PERMISSION_CODE) {
+            deniedPermission.clear()
+            for (i: Int in permissions.indices) {
+                val permission = permissions[i]
+                val result = grantResults[i]
+                if (result == PackageManager.PERMISSION_DENIED) {
+                    deniedPermission.add(permission)
+                }
+            }
+            if (deniedPermission.isEmpty()) {
+                bindCameraX()
+            } else {
+                AlertDialog.Builder(this)
+                    .setMessage(getString(R.string.capture_permission_message))
+                    .setNegativeButton(getString(R.string.capture_permission_no)) { dialog, _ ->
+                        dialog.dismiss()
+                        finish()
+                    }
+                    .setPositiveButton(getString(R.string.capture_permission_ok)) { _, _ ->
+                        ActivityCompat.requestPermissions(this, deniedPermission.toTypedArray(), PERMISSION_CODE)
+                    }.create().show()
+            }
+        }
+    }
+
+    // TODO: 2020/9/11 无法录制视频，api不稳定，等稳定后再改
     private fun bindCameraX() {
         executor = ContextCompat.getMainExecutor(this)
 
@@ -129,8 +174,8 @@ class CaptureActivity : AppCompatActivity() {
             val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
 
             //查询一下当前要使用的设备摄像头(比如后置摄像头)是否存在
-            val hasCamera = cameraProvider?.hasCamera(cameraSelector) ?: false
-            if (hasCamera) {
+                val hasCamera = cameraProvider?.hasCamera(cameraSelector) ?: false
+            if (!hasCamera) {
                 showToast("无可用的设备cameraId!,请检查设备的相机是否被占用")
                 finish()
                 return@addListener
@@ -145,28 +190,27 @@ class CaptureActivity : AppCompatActivity() {
                 //旋转角度
                 .setTargetRotation(Surface.ROTATION_0)
                 //分辨率
-                .setTargetResolution(resolution)
+//                .setTargetResolution(resolution)
                 .build()
 
             imageCapture = ImageCapture.Builder()
                 .setCameraSelector(cameraSelector)
                 .setTargetAspectRatio(AspectRatio.RATIO_16_9)
                 .setTargetRotation(Surface.ROTATION_0)
-                .setTargetResolution(resolution)
+//                .setTargetResolution(resolution)
                 .build()
 
             videoCapture = VideoCapture.Builder()
                 .setCameraSelector(cameraSelector)
                 .setTargetAspectRatio(AspectRatio.RATIO_16_9)
                 .setTargetRotation(Surface.ROTATION_0)
-                .setTargetResolution(resolution)
+//                .setTargetResolution(resolution)
                 //视频帧率
                 .setVideoFrameRate(25)
                 //bit率
                 .setBitRate(3 * 1024 * 1024)
                 .build()
 
-            preview.setSurfaceProvider(binding.previewView.createSurfaceProvider())
 
             try {
                 // Unbind use cases before rebinding
@@ -176,13 +220,19 @@ class CaptureActivity : AppCompatActivity() {
                 cameraProvider?.bindToLifecycle(this,
                     cameraSelector,
                     preview,
-                    imageCapture,
-                    videoCapture)
+                    imageCapture
+                )
+//                cameraProvider?.bindToLifecycle(this,
+//                    cameraSelector,
+//                    preview,
+//                    imageCapture,
+//                    videoCapture)
 //                cameraProvider?.bindToLifecycle(
 //                    this, cameraSelector, preview)
+                preview.setSurfaceProvider(binding.previewView.createSurfaceProvider())
 
             } catch (exc: Exception) {
-
+                Log.e("CaptureActivity", "bindCameraX: ${exc.message}")
             }
         }, executor)
     }
