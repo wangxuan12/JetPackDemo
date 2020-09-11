@@ -43,7 +43,7 @@ open class FeedCommentAdapter(val context: Context) : AbsPagedListAdapter<Commen
             holder.bindView(comment, context)
             holder.binding.commentDelete.setOnClickListener {view ->
                 InteractionPresenter.deleteFeedComment(context, comment.itemId, comment.commentId)
-                    .observe(context as LifecycleOwner, Observer {
+                    .observe(context as LifecycleOwner, {
                         if (it) deleteAndRefresh(comment)
                     })
             }
@@ -69,7 +69,6 @@ open class FeedCommentAdapter(val context: Context) : AbsPagedListAdapter<Commen
         }
     }
 
-    // TODO: 2020/9/5 删除后显示错误问题
     fun deleteAndRefresh(comment: Comment) {
         currentList?.also {
             val dataSource = object :
@@ -79,7 +78,7 @@ open class FeedCommentAdapter(val context: Context) : AbsPagedListAdapter<Commen
                 }
             }
             for (item in it) {
-                if (comment != item) dataSource.data.add(comment)
+                if (comment != item) dataSource.data.add(item)
             }
             val pageList = dataSource.buildNewPagedList(it.config)
             submitList(pageList)

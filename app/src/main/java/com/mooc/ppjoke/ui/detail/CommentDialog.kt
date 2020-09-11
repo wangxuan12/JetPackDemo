@@ -33,12 +33,6 @@ import java.util.concurrent.atomic.AtomicInteger
 class CommentDialog : AppCompatDialogFragment(), View.OnClickListener {
 
     private var loadingDialog: LoadingDialog? = null
-        get() {
-            if (field == null) {
-                field = context?.let { LoadingDialog(it) }
-            }
-            return field
-        }
     private var height: Int = 0
     private var width: Int = 0
     private var isVideo = false
@@ -201,11 +195,14 @@ class CommentDialog : AppCompatDialogFragment(), View.OnClickListener {
     }
 
     private fun showLoadingDialog() {
-        loadingDialog?.also{
-            it.setLoadingText(getString(R.string.upload_text))
-            it.setCanceledOnTouchOutside(false)
-            it.setCancelable(false)
-            it.takeIf { !it.isShowing }?.also { it.show() }
+        context?.also {
+            (loadingDialog ?: LoadingDialog(it)).also {
+                loadingDialog = it
+                it.setLoadingText(getString(R.string.upload_text))
+                it.setCanceledOnTouchOutside(false)
+                it.setCancelable(false)
+                it.takeIf { !it.isShowing }?.also { it.show() }
+            }
         }
     }
 
